@@ -1,15 +1,13 @@
-import { IsString, Length } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
+import { IsString } from "class-validator";
+
 
 export class CreateArticleDto {
-    @IsString()
-    @Length(10, 500)
-    heading: string;
+  @ApiProperty({default: "JavaScript"})
+  @IsString()
+  title!: string;
 
-    @IsString()
-    @Length(20, 20000)
-    body: string;
-
-    @IsString()
-    @Length(20, 500)
-    backgroundImage: string;
+  @ApiProperty({default: "Hello World"})
+  @IsString()
+  text!: string;
 }
