@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto, LoginAuthDto } from './dto/create-auth.dto';
+import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { VerifyAuthDto } from './dto/verify.dto';
 

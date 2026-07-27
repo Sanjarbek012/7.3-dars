@@ -10,6 +10,7 @@ import {
   HttpCode,
   UseInterceptors,
   UploadedFile,
+  Req,
 } from "@nestjs/common";
 import { ArticlesService } from "./article.service";
 import { CreateArticleDto } from "./dto/create-article.dto";
@@ -28,7 +29,7 @@ import {
 } from "@nestjs/swagger";
 import { CreateArticleFileDto } from "./dto/create-article-file.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { diskStorage, File as MulterFile } from "multer"
+import { diskStorage } from "multer"
 import path from "path"
 
 @ApiBearerAuth("JWT-auth")
@@ -58,8 +59,8 @@ export class ArticlesController {
       })
     })
   )
-  create(@Body() createArticleDto: CreateArticleDto, @UploadedFile() file: Express.Multer.File) {
-    return this.articlesService.create(createArticleDto, file);
+  create(@Body() createArticleDto: CreateArticleDto, @UploadedFile() file: Express.Multer.File, @Req() request: any) {
+    return this.articlesService.create(createArticleDto, file, request);
   }
 
   @ApiOkResponse({ type: [CreateArticleDto] })
@@ -89,7 +90,7 @@ export class ArticlesController {
   @ApiNotFoundResponse({ description: "Article not found" })
   @ApiOkResponse({ description: "Updated article" })
   @UseGuards(RolesGuard)
-  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN)
+  @Roles(UserRole.ADMIN, UserRole.SUPERADMIN, UserRole.USER)
   @HttpCode(200)
   @Delete(":id")
   remove(@Param("id") id: string) {
